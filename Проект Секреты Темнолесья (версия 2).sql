@@ -5,22 +5,11 @@
  * 
  * Автор: Деньгина Анна
  * Дата: 28.06.2026
-*/
---БЫЛА ПРОВЕДЕНА КОРРЕКТИРОВКА ПО КОММЕНТАРИЯМ, СПАСИБО ЗА ОБРАТНУЮ СВЯЗЬ
+
 -- Часть 1. Исследовательский анализ данных
 -- Задача 1. Исследование доли платящих игроков
 
 -- 1.1. Доля платящих пользователей по всем данным:
-WITH count_users AS(
-	SELECT 
-		COUNT(*) AS total_count_users,
-		SUM(payer) AS count_paying_users
-	FROM fantasy.users)
-SELECT total_count_users,
-	count_paying_users,
-	ROUND(count_paying_users/total_count_users::numeric, 2) AS paying_users_share
-FROM count_users;
---Альтернативный метод с функцией AVG()
 SELECT 
 	COUNT(*) AS total_count_users,
 	SUM(payer) AS count_paying_users,
@@ -28,20 +17,6 @@ SELECT
 FROM fantasy.users;
 
 -- 1.2. Доля платящих пользователей в разрезе расы персонажа:
-WITH count_users AS(
-	SELECT r.race,
-		COUNT(*) AS total_count_users,
-		SUM(u.payer) AS count_paying_users
-	FROM fantasy.users AS u
-	JOIN fantasy.race AS r ON u.race_id=r.race_id
-	GROUP BY r.race)	
-SELECT race,
-	count_paying_users,
-	total_count_users,
-	ROUND(count_paying_users/total_count_users::numeric, 2) AS paying_users_share
-FROM count_users
-ORDER BY paying_users_share DESC;
---Альтернативный метод с функцией AVG()
 SELECT r.race,
 	COUNT(*) AS total_count_users,
 	SUM(u.payer) AS count_paying_users,
